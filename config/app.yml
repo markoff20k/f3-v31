@@ -2,7 +2,7 @@
 app:
   name: fortem
   domain: fortem1.com.br
-  subdomain: admin
+  subdomain: demo
   show_landing: true
   opendax_addr: https://www.opendax.cloud
   wizard_enabled: true
