@@ -37,11 +37,11 @@ vault:
   kaigara_token: changeme
   sonic_token: changeme
 database:
-  host: 34.23.125.195
+  host: 104.196.121.240
   adapter: mysql
   port: 3306
-  user: fortem23
-  password: 132Mudar@
+  user: fortem
+  password: fortem23
 storage:
   provider: Google
   bucketName: opendax-barong-docs-bucket
