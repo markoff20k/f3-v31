@@ -2,25 +2,27 @@
 app:
   name: fortem
   domain: fortem1.com.br
-  subdomain: demo
+  subdomain: cert
   show_landing: true
   opendax_addr: https://www.opendax.cloud
-  wizard_enabled: true
+  wizard_enabled: false
 render_protect: false
 csrfEnabled: false
 ssl:
-  enabled: false
-  email: support@example.com
+  enabled: true
+  email: jeferson@fortem1.com.br
 updateVersions: false
 images:
-  peatio: quay.io/openware/peatio:3.1.0-ada4174
-  barong: quay.io/openware/barong:3.0.5
-  sonic: quay.io/openware/baseapp:d61d0626
-  tower: quay.io/openware/tower:3.0.44
-  rango: quay.io/openware/rango:3.0.1
+  peatio: quay.io/openware/peatio:3.1.0-e2122b0
+  barong: quay.io/openware/barong:3.1.0-78bc40d
+  sonic: quay.io/openware/sonic:3.1.0-f7132eb
+  tower: quay.io/openware/tower:3.1.0-1f64f44
+  rango: quay.io/openware/rango:3.1.0-b2239c2
   finex: quay.io/openware/openfinex:3.0.0-74d3b52
 vendor:
   frontend: git@github.com:openware/baseapp.git
+finex:
+  enabled: false
 kyc:
   provider: local
   authorization_token: changeme
@@ -37,11 +39,11 @@ vault:
   kaigara_token: changeme
   sonic_token: changeme
 database:
-  host: 104.196.121.240
+  host: 34.23.237.136
   adapter: mysql
   port: 3306
-  user: fortem
-  password: fortem23
+  user: fortem23
+  password: 132Mudar@
 storage:
   provider: Google
   bucketName: opendax-barong-docs-bucket
