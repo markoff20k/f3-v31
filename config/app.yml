@@ -5,7 +5,7 @@ app:
   subdomain: cert
   show_landing: true
   opendax_addr: https://www.opendax.cloud
-  wizard_enabled: false
+  wizard_enabled: true
 render_protect: false
 csrfEnabled: false
 ssl:
