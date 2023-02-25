@@ -39,7 +39,7 @@ vault:
   kaigara_token: changeme
   sonic_token: changeme
 database:
-  host: 34.23.237.136
+  host: 35.226.71.221
   adapter: mysql
   port: 3306
   user: fortem23
