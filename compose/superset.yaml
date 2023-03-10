@@ -1,0 +1,16 @@
+version: '3.6'
+
+services:
+  superset:
+    image: "amancevice/superset:0.28.1"
+    restart: always
+    volumes:
+      - superset_db:/var/lib/superset
+    labels:
+      - "traefik.http.routers.superset-fortem.rule=Host(`superset.fortem1.com.br`)"
+      - "traefik.http.services.superset-fortem.loadbalancer.server.port=8088"
+      - "traefik.enable=true"
+      - "traefik.http.routers.superset-fortem.entrypoints=web"
+
+volumes:
+  superset_db:

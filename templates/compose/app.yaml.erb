@@ -34,26 +34,6 @@ services:
       - ../config/barong/abilities.yml:/home/app/config/abilities.yml
     command: bash -c "kaigara bundle exec puma --config config/puma.rb"
 
-  finex-api:
-    restart: always
-    image: "<%= @config['images']['finex'] %>"
-    env_file:
-      - ../config/finex.env
-      - ../config/kaigara.env
-    command: "kaigara ./orderapi"
-    volumes:
-      - ../config/finex:/app/config:ro
-
-  finex-engine:
-    restart: always
-    image: "<%= @config['images']['finex'] %>"
-    env_file:
-      - ../config/finex.env
-      - ../config/kaigara.env
-    command: "kaigara ./finex"
-    volumes:
-      - ../config/finex:/app/config:ro
-
   applogic:
     restart: always
     image: "<%= @utils['images']['applogic'] %>"
@@ -73,7 +53,7 @@ services:
       - ../config/kaigara.env
     entrypoint: /bin/sh -c "kaigara ./bin/sonic serve"
     labels:
-      - "traefik.http.routers.sonic-<%= @name %>.rule=Host(`<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>`) && PathPrefix(`/`)"
+      - "traefik.http.routers.sonic-<%= @name %>.rule=Host(`<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>`) && PathPrefix(`/sonic`)"
       - "traefik.enable=true"
       - "traefik.http.services.sonic-<%= @name %>.loadbalancer.server.port=6969"
       <%- if @config['ssl']['enabled'] -%>
@@ -97,4 +77,21 @@ services:
       - "traefik.http.routers.tower-<%= @name %>.tls.certresolver=myresolver"
       <%- else -%>
       - "traefik.http.routers.tower-<%= @name %>.entrypoints=web"
+      <%- end -%>
+
+  frontend:
+    restart: always
+    image: "<%= @config['images']['frontend'] %>"
+    volumes:
+      - ../config/frontend/env.js:/usr/share/nginx/html/config/env.js
+    labels:
+      - "traefik.http.routers.frontend-<%= @name %>.rule=Host(`<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>`>) && PathPrefix(`/`)"
+      - "traefik.enable=true"
+      - "traefik.http.services.frontend-<%= @name %>.loadbalancer.server.port=3000"
+      <%- if @config['ssl']['enabled'] -%>
+      - "traefik.http.routers.frontend-<%= @name %>.entrypoints=websecure"
+      - "traefik.http.routers.frontend-<%= @name %>.tls=true"
+      - "traefik.http.routers.frontend-<%= @name %>.tls.certresolver=myresolver"
+      <%- else -%>
+      - "traefik.http.routers.frontend-<%= @name %>.entrypoints=web"
       <%- end -%>

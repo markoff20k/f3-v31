@@ -102,3 +102,24 @@ services:
     volumes:
       - ../config/applogic/management_api_v2.yml:/home/app/config/management_api_v2.yml
     command: bash -c "kaigara bundle exec rake event_api_listener"
+
+
+<% unless @config['finex']['enabled'] %>
+  matching:
+    << : *peatio-daemon
+    environment:
+    - VAULT_TOKEN=${PEATIO_MATCHING_VAULT_TOKEN}
+    command: bash -c "bin/link_config && bundle exec ruby lib/daemons/amqp_daemon.rb matching"
+
+  order_processor:
+    << : *peatio-daemon
+    environment:
+    - VAULT_TOKEN=${PEATIO_MATCHING_VAULT_TOKEN}
+    command: bash -c "bin/link_config && bundle exec ruby lib/daemons/amqp_daemon.rb order_processor"
+
+  trade_executor:
+    << : *peatio-daemon
+    environment:
+    - VAULT_TOKEN=${PEATIO_MATCHING_VAULT_TOKEN}
+    command: bash -c "bin/link_config && bundle exec ruby lib/daemons/amqp_daemon.rb trade_executor"
+<% end %>

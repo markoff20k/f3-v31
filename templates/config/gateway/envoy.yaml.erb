@@ -18,7 +18,7 @@ static_resources:
               - "*"
               cors:
                 allow_origin:
-                - "*"
+                - "http://www.fortem1.com.br,https://www.fortem1.com.br,ws://www.fortem1.com.br,wss://www.fortem1.com.br,http://local.fortem1.com.br,ws://www.fortem1.com.br"
                 allow_methods: "PUT, GET, POST, DELETE, PATCH"
                 allow_headers: "content-type, x-grpc-web, total, page, x-csrf-token"
                 expose_headers: "total, page, x-csrf-token"
@@ -40,6 +40,11 @@ static_resources:
                   cluster: barong
                   prefix_rewrite: "/api/v2/"
               - match:
+                  prefix: "/api/v2/auth"
+                route:
+                  cluster: barong
+                  prefix_rewrite: "/api/v2/"
+              - match:
                   prefix: "/api/v2/applogic"
                 route:
                   cluster: applogic
@@ -55,9 +60,14 @@ static_resources:
                   cluster: peatio
                   prefix_rewrite: "/api/v2/"
               - match:
+                  prefix: "/api/v2/trade"
+                route:
+                  cluster: peatio
+                  prefix_rewrite: "/api/v2/"
+              - match:
                   prefix: "/api/v2/finex"
                 route:
-                  cluster: finex
+                  cluster: peatio
                   prefix_rewrite: "/api/v2/"
               - match:
                   prefix: "/admin"
@@ -75,7 +85,21 @@ static_resources:
                   upgrade_configs:
                     upgrade_type: "websocket"
               - match:
+                  prefix: "/api/v2/websocket/public"
+                route:
+                  cluster: rango
+                  prefix_rewrite: ""
+                  upgrade_configs:
+                    upgrade_type: "websocket"
+              - match:
                   prefix: "/api/v2/ranger/private"
+                route:
+                  cluster: rango
+                  prefix_rewrite: ""
+                  upgrade_configs:
+                    upgrade_type: "websocket"
+              - match:
+                  prefix: "/api/v2/websocket/private"
                 route:
                   cluster: rango
                   prefix_rewrite: ""

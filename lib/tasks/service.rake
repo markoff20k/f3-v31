@@ -89,7 +89,7 @@ namespace :service do
 
   desc 'Run daemons (rango, peatio daemons, barong sidekiq)'
   task :daemons, [:command] do |_task, args|
-    @daemons = %w[rango blockchain cron_job upstream deposit deposit_coin_address withdraw_coin influx_writer barong_sidekiq finex-engine finex-api]
+    @daemons = %w[rango blockchain cron_job upstream deposit deposit_coin_address withdraw_coin influx_writer barong_sidekiq]
 
     args.with_defaults(:command => 'start')
 
@@ -164,12 +164,12 @@ namespace :service do
 
     def start
       puts '----- Starting the frontend -----'
-      sh 'docker-compose up -d sonic'
+      sh 'docker-compose up -d frontend'
     end
 
     def stop
       puts '----- Stopping the frontend -----'
-      sh 'docker-compose rm -fs sonic'
+      sh 'docker-compose rm -fs frontend'
     end
 
     @switch.call(args, method(:start), method(:stop))

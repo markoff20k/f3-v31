@@ -1,0 +1,21 @@
+version: '3.6'
+
+services:
+  frontend:
+    image: node:16
+    restart: always
+    user: "${UID}:${GID}"
+    volumes:
+      - ../vendor/frontend:/home/node
+    command:
+      - sh
+      - -c
+      - |
+        cd /home/node
+        npm install --legacy-peer-deps
+        npm start
+    labels:
+      - "traefik.http.routers.frontend-fortem.rule=Host(`www.fortem1.com.br`) && PathPrefix(`/`)"
+      - "traefik.http.services.frontend-fortem.loadbalancer.server.port=3000"
+      - "traefik.enable=true"
+      - "traefik.http.routers.frontend-fortem.entrypoints=web"
